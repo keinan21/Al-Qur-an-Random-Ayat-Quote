@@ -37,10 +37,6 @@ A simple and elegant web application that provides a random verse (ayat) from th
 
 This project uses the amazing [Al Quran Cloud API](http://alquran.cloud/) to retrieve all the data.
 
-## Author ✍️
-
-- [Yusuf](https://github.com/Yusuf)
-
 ## License 📜
 
 This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
