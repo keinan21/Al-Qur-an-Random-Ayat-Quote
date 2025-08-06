@@ -1,5 +1,9 @@
 # Al-Qur'an Random Ayat Quote
 
+![Built with Alpine.js](https://img.shields.io/badge/Built%20with-Alpine.js-808FCE?style=for-the-badge&logo=alpine.js)
+![API](https://img.shields.io/badge/API-Al%20Quran%20Cloud-38A169?style=for-the-badge)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+
 A simple and elegant web application that provides a random verse (ayat) from the Holy Qur'an with a corresponding English translation. Built with pure HTML, CSS, and Alpine.js, this project offers a smooth, delightful experience with dynamic theme colors.
 
 ## Features ✨
