@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <title>Al-Qur'an Random Ayat Quote</title>
+    <meta name="description" content="Get a random verse from the Holy Quran with its translation. Discover a new piece of wisdom to brighten your day with every click.">
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </head>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      transition: all 500ms ease;
+    }
+    :root {
+      --accent: #4a90e2;
+      --base: #ffffff;
+      --body: #f0f0f0;
+      --dark-text: #333333;
+      --light-grey: #f0f0f0;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --font-family: "Montserrat", sans-serif;
+    }
+    body {
+      font-family: var(--font-family);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      background-color: var(--body);
+    }
+    div {
+      max-width: 700px;
+      width: 100%;
+      background-color: var(--base);
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 25px var(--shadow-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quote-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    figure {
+      background-color: var(--accent);
+      color: var(--base);
+      border-radius: 1.5rem 1.5rem 0 0;
+      padding: 2.5rem;
+      width: 100%;
+      margin: 0;
+    }
+
+    figure > figcaption {
+      text-align: right;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-top: 1.5rem;
+      opacity: 0.9;
+    }
+    blockquote {
+      font-weight: 300;
+      font-size: 1.3rem;
+      quotes: "“" "”" "‘" "’";
+      position: relative;
+    }
+    blockquote::before {
+      content: open-quote;
+      font-size: 3em;
+      font-family: serif;
+      line-height: 0;
+      display: block;
+      margin-left: -1.15ch;
+      margin-bottom: -1rem;
+      color: rgba(255, 255, 255, 0.7); /* Warna sedikit transparan */
+    }
+    blockquote::after {
+      content: close-quote;
+      font-family: serif;
+      font-size: 5em;
+      line-height: 0.5;
+      display: block;
+      margin-right: -1ch;
+      margin-top: 0rem;
+      text-align: right;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    blockquote h2 {
+      font-size: 1.6rem; /* Ukuran judul quote */
+      margin: 0;
+      font-weight: 400;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      background-color: var(--accent);
+      color: var(--base);
+      font-family: var(--font-family);
+      cursor: pointer;
+      padding: 18px 28px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 0 0 1.5rem 1.5rem;
+      transition: background-color var(--transition-speed) ease,
+        transform 0.1s ease;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+    button:hover {
+      background-color: var(--accent);
+      filter: brightness(0.6);
+      box-shadow: 0 5px 15px var(--shadow-color);
+    }
+    button:active {
+      box-shadow: none;
+    }
+    .loading-message-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
+        padding: 2rem;
+        color: var(--dark-text);
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+        }
+    .main-footer {
+        width: 100%;
+        max-width: 600px; /* Samakan dengan max-width div utama */
+        margin-top: 20px;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #6c757d; /* Warna teks abu-abu untuk kesan modern */
+        line-height: 1.5;
+    }
+
+    .main-footer a {
+        color: var(--accent); /* Warna link mengikuti warna aksen */
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .main-footer a:hover {
+        color: #0056b3; /* Warna saat hover */
+        text-decoration: underline;
+    }
+  </style>
+  <body
+    x-data="{
+        colorThemes: [
+            {
+                body: '#E0F7FA',
+                accent: '#00838F',
+                base: '#FFFFFF'
+            },
+            {
+                body: '#E8F5E9',
+                accent: '#388E3C',
+                base: '#FFFFFF'
+            },
+            {
+                body: '#F3E5F5',
+                accent: '#6A1B9A',
+                base: '#FFFFFF'
+            },
+            {
+                body: '#FBE9E7',
+                accent: '#D84315',
+                base: '#FFFFFF'
+            },
+            {
+                body: '#ECEFF1',
+                accent: '#546E7A',
+                base: '#FFFFFF'
+            },
+            {
+                body: '#FFF8E1',
+                accent: '#F9A825',
+                base: '#FFFFFF'
+            }
+        ],
+        currentTheme : {
+            body: '#FFF8E1',
+            accent: '#F9A825',
+            base: '#FFFFFF'
+        },
+
+    }"
+    x-bind:style="`--body: ${currentTheme.body}; --accent: ${currentTheme.accent}; --base: ${currentTheme.base};`"
+  >
+    <div
+      x-data="{
+            quote : {
+                text: '',
+                surah: '',
+                ayah: ''
+            },
+            loading : true,
+            async getData() {
+                this.loading = true;
+                setTimeout(async  () => {
+                    try {
+                        let randomAyat = Math.floor(Math.random() * 6237);
+                        let url = `https://api.alquran.cloud/v1/ayah/${randomAyat}/en.asad`;
+                        let response = await fetch(url);
+                        const result = await response.json();
+                        this.quote.text = result.data.text;
+                        this.quote.surah = result.data.surah.englishName;
+                        this.quote.ayat = result.data.numberInSurah;
+                    }
+                    catch(err){
+                        console.error(err);
+                    } finally {
+                        this.loading = false;
+                    }
+                },500);
+                let randomColor = Math.floor(Math.random() * colorThemes.length);
+                currentTheme = colorThemes[randomColor];
+            },
+            init(){
+                this.getData();
+            }
+        }"
+      x-transition
+    >
+      <div class="quote-container">
+        <figure>
+          <blockquote x-transition>
+            <h2 x-show=" ! loading" x-transition x-text="quote.text"></h2>
+          </blockquote>
+          <figcaption>
+            <strong x-text="quote.surah"></strong> :
+            <strong x-text="quote.ayat"></strong>
+          </figcaption>
+        </figure>
+        <button type="button" x-on:click="getData" :disabled="loading">
+          Change Quote
+        </button>
+      </div>
+    </div>
+  </body>
+  <footer class="main-footer">
+    <p>Crafted with ❤️ by Yusuf</p>
+    <p>&copy; <span x-text="new Date().getFullYear()"></span> Al-Qur'an Random Ayat</p>
+    </footer>
+</html>
