@@ -3,14 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Al-Qur'an Random Ayat Quote</title>
-    <meta name="description" content="Get a random verse from the Holy Quran with its translation. Discover a new piece of wisdom to brighten your day with every click.">
-    <meta name="google-site-verification" content="KsP5Fzdw2njuhtd4HvKRNwlsF8af--VsOJXaECnrRxc" />
+    <meta
+      name="description"
+      content="Get a random verse from the Holy Quran with its translation. Discover a new piece of wisdom to brighten your day with every click."
+    />
+    <meta
+      name="google-site-verification"
+      content="KsP5Fzdw2njuhtd4HvKRNwlsF8af--VsOJXaECnrRxc"
+    />
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="html2canvas.js"></script>
   </head>
   <style>
     *,
@@ -124,44 +134,93 @@
     }
     button:hover {
       background-color: var(--accent);
-      filter: brightness(0.6);
-      box-shadow: 0 5px 15px var(--shadow-color);
+      filter: brightness(1.05);
     }
     button:active {
       box-shadow: none;
     }
     .loading-message-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 200px;
-        padding: 2rem;
-        color: var(--dark-text);
-        font-size: 1.2rem;
-        font-weight: 600;
-        text-align: center;
-        }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      padding: 2rem;
+      color: var(--dark-text);
+      font-size: 1.2rem;
+      font-weight: 600;
+      text-align: center;
+    }
     .main-footer {
-        width: 100%;
-        max-width: 600px; /* Samakan dengan max-width div utama */
-        margin-top: 20px;
-        padding: 20px 0;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #6c757d; /* Warna teks abu-abu untuk kesan modern */
-        line-height: 1.5;
+      width: 100%;
+      max-width: 600px; /* Samakan dengan max-width div utama */
+      margin-top: 20px;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #6c757d; /* Warna teks abu-abu untuk kesan modern */
+      line-height: 1.5;
     }
 
     .main-footer a {
-        color: var(--accent); /* Warna link mengikuti warna aksen */
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
     }
 
     .main-footer a:hover {
-        color: #0056b3; /* Warna saat hover */
-        text-decoration: underline;
+      color: #0056b3;
+      text-decoration: underline;
+    }
+
+    .floating {
+      width: auto;
+
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      border-radius: 0;
+      background-color: rgba(255, 255, 255, 0);
+      box-shadow: none;
+    }
+    .floating button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--body);
+      border: 3px solid var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .floating button img {
+      min-width: 15px;
+      width: 100%;
+    }
+    @media only screen and (max-width: 600px) {
+      blockquote h2 {
+        font-size: 1.2rem;
+      }
+      figure {
+        padding: 1.5rem 1rem 1rem 1rem;
+      }
+
+      figure > figcaption {
+        font-size: 0.85rem;
+      }
+      blockquote::before {
+        font-size: 3em;
+        margin-left: -2rem;
+      }
+      blockquote::after {
+        font-size: 3em;
+        margin-right: -0.5rem;
+        margin-top: 1rem;
+      }
+      button {
+        font-size: 1rem;
+        padding: 16px 20px;
+      }
     }
   </style>
   <body
@@ -242,24 +301,66 @@
         }"
       x-transition
     >
-      <div class="quote-container">
+      <div class="quote-container" id="quote">
         <figure>
           <blockquote x-transition>
-            <h2 x-show=" ! loading" x-transition x-text="quote.text"></h2>
+            <h2
+              id="text"
+              x-show=" ! loading"
+              x-transition
+              x-text="quote.text"
+            ></h2>
           </blockquote>
           <figcaption>
-            <strong x-text="quote.surah"></strong> :
-            <strong x-text="quote.ayat"></strong>
+            <strong id="surah" x-text="quote.surah"></strong> :
+            <strong id="ayat" x-text="quote.ayat"></strong>
           </figcaption>
         </figure>
-        <button type="button" x-on:click="getData" :disabled="loading">
+        <button id="change" type="button" x-on:click="getData" :disabled="loading">
           Change Quote
         </button>
       </div>
     </div>
-  </body>
-  <footer class="main-footer">
-    <p>Crafted with ❤️ by Yusuf</p>
-    <p>&copy; <span x-text="new Date().getFullYear()"></span> Al-Qur'an Random Ayat</p>
+    <footer class="main-footer">
+      <p>Crafted with ❤️ by Yusuf</p>
+      <p>
+        &copy; <span x-text="new Date().getFullYear()"></span> Al-Qur'an Random
+        Ayat
+      </p>
     </footer>
+    <div
+      class="floating"
+      x-data="{
+      saveImage() {
+        const container = document.getElementById('quote');
+        document.getElementById('change').textContent = 'Al-Quran Al-Karim'
+        html2canvas(container).then(function(canvas) {
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'quran-quote.png';
+            link.click();
+        });
+        document.getElementById('change').textContent = 'Change Quote'
+      },
+      tweet() {
+          let text = document.getElementById('text').textContent;
+          let surah = document.getElementById('surah').textContent;
+          let ayat = document.getElementById('ayat').textContent;
+          let textTweet = `Today's Al-Qur'an Quote : ${text} ~ ${surah} : ${ayat}`;
+          let encodedText = encodeURIComponent(textTweet);
+          let url = `https://x.com/intent/tweet?text=${encodedText}`;
+          window.open(url)
+      }
+    }"
+    >
+      <button x-on:click="tweet">
+        <a href=""><img src="assets/x.svg" alt="" /></a>
+      </button>
+      <button x-on:click.prevent="saveImage">
+        <a href=""
+          ><img src="assets/phone-screen-capture-screen-svgrepo-com.svg" alt=""
+        /></a>
+      </button>
+    </div>
+  </body>
 </html>
