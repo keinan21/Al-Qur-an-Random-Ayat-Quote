@@ -33,6 +33,11 @@ A simple and elegant web application that provides a random verse (ayat) from th
 - **Alpine.js**: A lightweight JavaScript framework used for reactive state management and dynamic UI behavior.
 - **Al Quran Cloud API**: A free public API used to fetch random verses and their translations.
 
+## Latest Updates 🚀
+
+- **Improved Responsiveness**: The layout now adapts gracefully to smaller screens. Font sizes and spacing have been optimized to ensure readability and a clean look on mobile devices.
+- **Added Share & Save Functionality**: Two new buttons have been implemented to enhance user experience. You can now save the quote as a high-quality PNG image or share it directly on X (Twitter).
+
 ## Credits 🙏
 
 This project uses the amazing [Al Quran Cloud API](http://alquran.cloud/) to retrieve all the data.
